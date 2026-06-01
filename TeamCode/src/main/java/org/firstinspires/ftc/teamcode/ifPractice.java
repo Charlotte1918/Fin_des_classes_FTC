@@ -13,22 +13,18 @@ public class ifPractice extends OpMode {
 
     @Override
     public void loop() {
-        boolean aButton = gamepad1.a;
+
         double leftY = gamepad1.left_stick_y;
 
-        if (aButton) {
-            telemetry.addData("A Button", "Pressed !");
-        } else {
-            telemetry.addData("A Button", "NOT pressed !");
+
+        if (leftY < 0.1 && leftY > -0.1) {
+            telemetry.addData("leftStick", "is In Dead Zone");
         }
 
-        telemetry.addData("A Button State", aButton);
-
-        if (leftY < 0) {
-            telemetry.addData("leftString", "is Negative");
-        } else {
-            telemetry.addData("leftStick", "is Positive !");
+        if (!gamepad1.a) {
+            leftY *= 0.5;
         }
+
         telemetry.addData("leftStickValue", leftY);
 
     }
