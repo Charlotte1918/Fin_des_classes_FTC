@@ -34,7 +34,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
-// Il reste à : movs pince, telemetrie, 
+// Il reste : refiner le prog. et vérifier sur ordi
 
 @TeleOp(name = "Robot: Class Bot")
 public class TeleopClassBot extends OpMode {
@@ -69,6 +69,7 @@ public class TeleopClassBot extends OpMode {
 
         // INIT la pince
         pince = hardwareMap.get(Servo.class, "pince");
+        pince.setPosition(0)
 
         // INIT le touch sensor
         touchSensor = hardwareMap.get(TouchSensor.class, "touch sensor");
@@ -90,16 +91,21 @@ public class TeleopClassBot extends OpMode {
         
         // Mouvements du bras
         if (gamepad1.dpad_up) { 
-        bras.setPower(0.5) 
+        bras.setPower(0.5);
         } else if (gamepad1.dpad_down && !touchSensor.isPressed()) {
-        brad.setPower(-0.5)
+        bras.setPower(-0.5);
         }
 
         // Mouvements de la pince
-        
+        if (gamepad1.a) {
+        pince.setPosition(1);
+        } else if (gamepad1.b) {
+        pince.setPosition(0);
+        }
 
         // Télémétrie
         telemetry.addData("Touch Sensor", touchSensor);
-        
+        telemetry.update()
+
     }
 }
