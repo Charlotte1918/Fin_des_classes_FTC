@@ -1,12 +1,15 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.Range;
 
 import org.openftc.apriltag.AprilTagDetection;
 
+@Disabled
 public class TurretMechanism {
 
     private DcMotorEx turret;
@@ -47,6 +50,24 @@ public class TurretMechanism {
 
         // --------- start PD controller ----------
 
-        double error = goalX - currentID.ftcPose.bearing;
+        /* The error is that ftcPose wasn't found double error = goalX - currentID.ftcPose.bearing;
+        double pTerm = error * kP;
+
+        double dTerm = 0;
+        if (deltaTime > 0) {
+            dTerm = ((error - lastError) /deltaTime) * kD;
+        }
+
+        if (Math.abs(error) < angleTolerance) {
+            power = 0;
+        } else {
+            power = Range.clip(pTerm + dTerm, -MAX_POWER, MAX_POWER);
+        }
+
+        // put the safety here if we go to that point
+
+        turret.setPower(power);
+        lastError = error;
+        */
     }
 }
