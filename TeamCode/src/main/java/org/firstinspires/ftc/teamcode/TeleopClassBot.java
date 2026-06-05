@@ -31,7 +31,8 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.IMU;
+import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
 @TeleOp(name = "Robot: Class Bot", group = "Robot")
 public class TeleopClassBot extends OpMode {
@@ -43,11 +44,14 @@ public class TeleopClassBot extends OpMode {
     DcMotor bras;
 
     // Servo de la pince
+    private Servo pince;
 
+    // Touch Sensor
+    TouchSensor touchSensor;
 
 
     @Override
-    public void init() {
+    public void init(HardwareMap hardwareMap) {
 
         // INIT la base
         gauche = hardwareMap.get(DcMotor.class, "gauche");
@@ -59,24 +63,38 @@ public class TeleopClassBot extends OpMode {
         droit.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // INIT le bras
-
+        bras = hardwareMap.get(DcMotor.class, "servo");
 
         // INIT la pince
+        pince = hardwareMap.get(Servo.class, "pince");
+
+        // INIT le touch sensor
+        touchSensor = hardwareMap.get(TouchSensor.class, "touch sensor");
 
     }
 
     @Override
     public void loop() {
 
-        // Voici comment la base bouge
+        // Mouvements de la base
         double forward = gamepad1.left_stick_y;
         double rotate = gamepad1.right_stick_x;
 
-        double gauchePuissance = forward + rotate;
-        double droitPuissance = forward - rotate;
+        double gauchePower = forward + rotate;
+        double droitPower = forward - rotate;
+        
+        gauche.setPower(gauchePower);
+        droit.setPower(droitPower);
+        
+        // Mouvements du bras
+        if (gamepad1.dpad_up) { 
+        bras.setPower(0.5) 
+        } else if (gamepad1.dpad_down && !touchSensor.isPressed()) {
+        brad.setPower(-0.5)
+        }
 
-        if (gamepad1.dpad_up) { }
-
+        // Mouvements de la pince
+        
 
     }
 }
