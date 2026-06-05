@@ -34,7 +34,9 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
-@TeleOp(name = "Robot: Class Bot", group = "Robot")
+// Il reste à : movs pince, telemetrie, 
+
+@TeleOp(name = "Robot: Class Bot")
 public class TeleopClassBot extends OpMode {
     // Moteurs de la base
     DcMotor gauche;
@@ -96,5 +98,8 @@ public class TeleopClassBot extends OpMode {
         // Mouvements de la pince
         
 
+        // Télémétrie
+        telemetry.addData("Touch Sensor", touchSensor);
+        
     }
 }
