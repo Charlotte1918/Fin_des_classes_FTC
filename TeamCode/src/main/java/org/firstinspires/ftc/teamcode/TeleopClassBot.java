@@ -35,10 +35,11 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-// Il reste : refiner le prog. et vérifier sur ordi
+// Il reste : vérifier sur ordi et classBot
 
 @TeleOp(name = "Robot: Class Bot")
 public class TeleopClassBot extends OpMode {
+
     // Indique comment les Moteurs De La Base seront nommés dans le programme
     DcMotor gauche;
     DcMotor droit;
@@ -56,24 +57,25 @@ public class TeleopClassBot extends OpMode {
     @Override
     public void init(HardwareMap hardwareMap) {
 
-        // INIT la base
+        // Indique quels DcMotors de la config seront ceux de la base
         gauche = hardwareMap.get(DcMotor.class, "gauche");
         droit = hardwareMap.get(DcMotor.class, "droit");
 
         // La direction d'un des moteurs de la base est inversée
         gauche.setDirection(DcMotor.Direction.REVERSE);
 
+        // Les moteurs se fieront à leurs encoders
         gauche.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         droit.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        // INIT le bras
-        bras = hardwareMap.get(DcMotor.class, "servo");
+        // Indique quel DcMotor de la config sera celui du bras
+        bras = hardwareMap.get(DcMotor.class, "bras");
 
-        // INIT la pince
+        // Indique quel Servo de la config sera celui de la pince
         pince = hardwareMap.get(Servo.class, "pince");
         pince.setPosition(0)
 
-        // INIT le touch sensor
+        // Indique quel TouchSensor de la config sera celui du bras
         touchSensor = hardwareMap.get(TouchSensor.class, "touch sensor");
 
     }
@@ -116,6 +118,7 @@ public class TeleopClassBot extends OpMode {
 
         // Télémétrie : on envoie des informations du programme pour que nous puissons les voir sur le driver hub
         telemetry.addData("Touch Sensor", touchSensor);
+        // On update la télémetrie pour pouvoir les nouvelles informations à chaque cycle
         telemetry.update()
 
     }
