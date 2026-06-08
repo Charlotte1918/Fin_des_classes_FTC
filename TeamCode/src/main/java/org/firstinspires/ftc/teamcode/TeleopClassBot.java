@@ -60,6 +60,7 @@ public class TeleopClassBot extends OpMode {
         gauche = hardwareMap.get(DcMotor.class, "gauche");
         droit = hardwareMap.get(DcMotor.class, "droit");
 
+        // La direction d'un des moteurs de la base est inversée
         gauche.setDirection(DcMotor.Direction.REVERSE);
 
         gauche.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -81,30 +82,39 @@ public class TeleopClassBot extends OpMode {
     public void loop() {
 
         // Mouvements de la base
+        
+        // Le robot avance selon le y du joystick gauche
         double forward = gamepad1.left_stick_y;
+        // Le robot tourne selon le x du joystick droit
         double rotate = gamepad1.right_stick_x;
 
+        // On définit quel sera la puissance appliqué à chaque moteur
         double gauchePower = forward + rotate;
         double droitPower = forward - rotate;
         
+        // Les moteurs reçoivent la puissance calculée ci-dessus
         gauche.setPower(gauchePower);
         droit.setPower(droitPower);
         
         // Mouvements du bras
         if (gamepad1.dpad_up) { 
+        // Si dpad_up est pressé, le bras monte
         bras.setPower(0.5);
         } else if (gamepad1.dpad_down && !touchSensor.isPressed()) {
+        // Sinon et si dpad_down est pressé et que le touch sensor n'est pas appuyé, le bras descent
         bras.setPower(-0.5);
         }
 
         // Mouvements de la pince
         if (gamepad1.a) {
+        // Si A est pressé, la pince ouvre
         pince.setPosition(1);
         } else if (gamepad1.b) {
+        // Sinon et si B est pressé, la pince ferme
         pince.setPosition(0);
         }
 
-        // Télémétrie
+        // Télémétrie : on envoie des informations du programme pour que nous puissons les voir sur le driver hub
         telemetry.addData("Touch Sensor", touchSensor);
         telemetry.update()
 
