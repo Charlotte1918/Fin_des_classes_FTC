@@ -39,11 +39,11 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 @TeleOp(name = "Robot: Class Bot")
 public class TeleopClassBot extends OpMode {
-    // Moteurs de la base
+    // Indique comment les Moteurs De La Base seront nommés dans le programme
     DcMotor gauche;
     DcMotor droit;
 
-    // Moteur du bras
+    // Indique comment le Moteur Du Bras seront nommés dans le programme
     DcMotor bras;
 
     // Servo de la pince
