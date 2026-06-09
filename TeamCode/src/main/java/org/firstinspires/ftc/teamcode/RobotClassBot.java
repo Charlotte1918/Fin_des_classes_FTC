@@ -33,12 +33,11 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 
 // Il reste : vérifier sur ordi et classBot
 
-@TeleOp(name = "Robot: Class Bot")
-public class TeleopClassBot extends OpMode {
+@TeleOp(name = "Robot Class Bot", group = "Robot")
+public class RobotClassBot extends OpMode {
 
     // Indique comment les Moteurs De La Base seront nommés dans le programme
     DcMotor gauche;
@@ -55,7 +54,7 @@ public class TeleopClassBot extends OpMode {
 
 
     @Override
-    public void init(HardwareMap hardwareMap) {
+    public void init() {
 
         // Indique quels DcMotors de la config seront ceux de la base
         gauche = hardwareMap.get(DcMotor.class, "gauche");
@@ -73,7 +72,7 @@ public class TeleopClassBot extends OpMode {
 
         // Indique quel Servo de la config sera celui de la pince
         pince = hardwareMap.get(Servo.class, "pince");
-        pince.setPosition(0)
+        pince.setPosition(0);
 
         // Indique quel TouchSensor de la config sera celui du bras
         touchSensor = hardwareMap.get(TouchSensor.class, "touch sensor");
@@ -119,7 +118,7 @@ public class TeleopClassBot extends OpMode {
         // Télémétrie : on envoie des informations du programme pour que nous puissons les voir sur le driver hub
         telemetry.addData("Touch Sensor", touchSensor);
         // On update la télémetrie pour pouvoir les nouvelles informations à chaque cycle
-        telemetry.update()
+        telemetry.update();
 
     }
 }
