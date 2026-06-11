@@ -60,15 +60,23 @@ public class RobotClassBot extends OpMode {
         gauche = hardwareMap.get(DcMotor.class, "gauche");
         droit = hardwareMap.get(DcMotor.class, "droit");
 
-        // La direction d'un des moteurs de la base est inversée
-        gauche.setDirection(DcMotor.Direction.REVERSE);
+        // La direction d'un (ou les deux) des moteurs de la base est inversée
+        gauche.setDirection(DcMotor.Direction.FORWARD);
+        droit.setDirection(DcMotor.Direction.REVERSE);
 
         // Les moteurs se fieront à leurs encoders
         gauche.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         droit.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
+        // Les moteurs auront des brakes
+        gauche.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        droit.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         // Indique quel DcMotor de la config sera celui du bras
         bras = hardwareMap.get(DcMotor.class, "bras");
+
+        // Le moteur du bras nécessite un brake
+        bras.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // Indique quel Servo de la config sera celui de la pince
         pince = hardwareMap.get(Servo.class, "pince");
@@ -90,8 +98,8 @@ public class RobotClassBot extends OpMode {
         double rotate = gamepad1.right_stick_x;
 
         // On définit quel sera la puissance appliqué à chaque moteur
-        double gauchePower = forward + rotate;
-        double droitPower = forward - rotate;
+        double gauchePower = forward - rotate;
+        double droitPower = forward + rotate;
         
         // Les moteurs reçoivent la puissance calculée ci-dessus
         gauche.setPower(gauchePower);
@@ -104,7 +112,10 @@ public class RobotClassBot extends OpMode {
         } else if (gamepad1.dpad_down && !touchSensor.isPressed()) {
         // Sinon et si dpad_down est pressé et que le touch sensor n'est pas appuyé, le bras descent
         bras.setPower(-0.5);
-        }
+        } else {
+        // Sinon, le bras ne bouge pas    
+        bras.setPower(0);
+        }    
 
         // Mouvements de la pince
         if (gamepad1.a) {
@@ -116,7 +127,7 @@ public class RobotClassBot extends OpMode {
         }
 
         // Télémétrie : on envoie des informations du programme pour que nous puissons les voir sur le driver hub
-        telemetry.addData("Touch Sensor", touchSensor);
+        telemetry.addData("Touch Sensor", touchSensor.getValue());
         // On update la télémetrie pour pouvoir les nouvelles informations à chaque cycle
         telemetry.update();
 
